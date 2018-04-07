@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taobao.fanli.dao.mapper.TaobaoMapper">
+    <resultMap id="BaseResultMap" type="com.taobao.fanli.dao.model.Taobao">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="old_taobao_password" jdbcType="VARCHAR" property="oldTaobaoPassword" />
+        <result column="goods_link" jdbcType="LONGVARCHAR" property="goodsLink" />
+        <result column="new_taobao_password" jdbcType="VARCHAR" property="newTaobaoPassword" />
+        <result column="state" jdbcType="TINYINT" property="state" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="price" jdbcType="INTEGER" property="price" />
+        <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+        <result column="native_url" jdbcType="LONGVARCHAR" property="nativeUrl" />
+        <result column="thumb_pic_url" jdbcType="VARCHAR" property="thumbPicUrl" />
+        <result column="create_at" jdbcType="DATE" property="createAt" />
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id, old_taobao_password, goods_link, new_taobao_password, state, title, content, price,
+        pic_url, native_url, thumb_pic_url, create_at
+    </sql>
+
+    <select id="getOne" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Colum_List"/>
+      FROM taobao
+      WHERE id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <select id="queryOne" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Colum_List"/>
+        FROM taobao
+        WHERE state = #{state, jdbcType=TINYINT}
+        limit 1;
+    </select>
+
+    <insert id="insert" parameterType="com.taobao.fanli.dao.model.Taobao">
+        INSERT INTO
+        taobao
+        (old_taobao_password, goods_link, new_taobao_password, state, title, content, price,
+        pic_url, native_url, thumb_pic_url, create_at)
+        VALUES
+        (#{oldTaobaoPassword, jdbcType=VARCHAR}, #{goodsLink, jdbcType=VARCHAR},
+        #{newTaobaoPassword,jdbcType=VARCHAR}, #{state, jdbcType=TINYINT},
+        #{title, jdbcType=VARCHAR}, #{content, jdbcType=VARCHAR}, #{price, jdbcType=INTEGER},
+        #{picUrl, jdbcType=VARCHAR}, #{nativeUrl, jdbcType=VARCHAR},
+        #{thumbPicUrl, jdbcType=VARCHAR}, #{createAt, jdbcType=DATE})
+    </insert>
+
+    <update id="update">
+        UPDATE
+        taobao
+        SET
+        state = #{state, jdbcType=TINYINT}
+        WHERE
+        id = #{id, jdbcType=INTEGER}
+    </update>
+
+</mapper>
