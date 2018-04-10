@@ -9,11 +9,15 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface TaobaoMapper {
 
-    Taobao getOne(Integer id);
+    Taobao getOne(@Param("id") Integer id, @Param("state") Byte state);
 
     void insert(Taobao taobao);
 
-    void update(@Param("id") Integer id,@Param("state") Byte state);
+    void insertDynamic(Taobao taobao);
+
+    void update();
+
+    void updateDynamic(Taobao taobao);
 
     Taobao queryOne(@Param("state") Byte state);
 }

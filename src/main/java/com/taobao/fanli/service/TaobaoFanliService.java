@@ -18,6 +18,8 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author:xiaolei
@@ -30,53 +32,69 @@ public class TaobaoFanliService {
     @Resource
     private TaobaoMapper taobaoMapper;
     @Resource
-    private TaobaoConfig taobaoConfig;
+    private TaobaoApiService taobaoApiService;
 
-    public String parseTpwd(String content) throws ApiException {
-        WirelessShareTpwdQueryResponse result = method(content);
-        insert(content, result);
-        return "success";
+    /**
+     * 解析插入操作
+     * @param content
+     * @return
+     * @throws ApiException
+     */
+    public Map<String, Integer> parseTpwd(String content) throws ApiException {
+        String oldTaobaoPassword = parseSearchContent(content);
+        Integer id = insert(content, oldTaobaoPassword);
+        taobaoApiService.dealData(id, oldTaobaoPassword);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("id", id);
+        return map;
     }
 
-    public void insert(String content, WirelessShareTpwdQueryResponse result){
+    private String parseSearchContent(String content){
+        int count = content.indexOf("￥");
+        int count2 = content.lastIndexOf("￥");
+        String oldTaobaoPassword = content.substring(count, count2+1);
+        return oldTaobaoPassword;
+    }
+
+    private Integer insert(String content, String oldTaobaoPassword){
         Taobao taobao = new Taobao();
         taobao.setId(null);
-        taobao.setOldTaobaoPassword(content);
-        taobao.setContent(result.getContent());
-        taobao.setGoodsLink(result.getUrl());
-        taobao.setNativeUrl(result.getNativeUrl());
-        taobao.setPicUrl(result.getPicUrl());
-        if(!StringUtils.isEmpty(result.getPrice())){
-            taobao.setPrice(Integer.valueOf(result.getPrice()));
-        }
-        taobao.setState((byte) 1);
+        taobao.setSearchContent(content);
+        taobao.setOldTaobaoPassword(oldTaobaoPassword);
+        taobao.setState((byte) 0);
         taobao.setCreateAt(new Date());
-        taobao.setThumbPicUrl(result.getThumbPicUrl());
-        taobao.setTitle(result.getTitle());
-        taobaoMapper.insert(taobao);
+        taobao.setUpdateAt(taobao.getCreateAt());
+        taobaoMapper.insertDynamic(taobao);
+        return taobao.getId();
     }
 
-    private WirelessShareTpwdQueryResponse method(String content) throws ApiException {
-        String url = taobaoConfig.getUrl();
-        String appkey = taobaoConfig.getAppkey();
-        String secret = taobaoConfig.getSecret();
-        TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
-        WirelessShareTpwdQueryRequest req = new WirelessShareTpwdQueryRequest();
-        req.setPasswordContent(content);
-        WirelessShareTpwdQueryResponse response = client.execute(req);
-        return response;
+    /**
+     * 更新操作
+     * @param id
+     * @param newTaobaoPassword
+     */
+    public void update(Integer id, String newTaobaoPassword) {
+        Taobao taobao = new Taobao();
+        taobao.setId(id);
+        taobao.setNewTaobaoPassword(newTaobaoPassword);
+        taobao.setState((byte) 3);
+        taobaoMapper.updateDynamic(taobao);
     }
 
-    public void update(Integer id, Byte state) {
-        taobaoMapper.update(id, state);
+    /**
+     * 查询一个根据id
+     * @param id
+     * @return
+     */
+    public Taobao queryOne(Integer id) {
+        Taobao taobao = taobaoMapper.getOne(id, (byte) 3);
+        return taobao;
     }
 
     @Transactional
-    public Taobao queryOne(Byte state) {
-        Taobao taobao = taobaoMapper.queryOne(state);
-        if(taobao.getState() == 1){
-            update(taobao.getId(), (byte) 2);
-        }
+    public Taobao queryState() {
+        taobaoMapper.update();
+        Taobao taobao = taobaoMapper.queryOne((byte) 2);
         return taobao;
     }
 }

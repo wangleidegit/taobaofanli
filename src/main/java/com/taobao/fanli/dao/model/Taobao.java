@@ -9,6 +9,7 @@ import java.util.Date;
 public class Taobao {
 
     private Integer id;
+    private String searchContent;
     private String oldTaobaoPassword;
     private String goodsLink;
     private String newTaobaoPassword;
@@ -20,6 +21,7 @@ public class Taobao {
     private String nativeUrl;
     private String thumbPicUrl;
     private Date createAt;
+    private Date updateAt;
 
     public Integer getId() {
         return id;
@@ -115,5 +117,21 @@ public class Taobao {
 
     public void setThumbPicUrl(String thumbPicUrl) {
         this.thumbPicUrl = thumbPicUrl;
+    }
+
+    public String getSearchContent() {
+        return searchContent;
+    }
+
+    public void setSearchContent(String searchContent) {
+        this.searchContent = searchContent;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 }

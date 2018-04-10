@@ -3,6 +3,7 @@
 <mapper namespace="com.taobao.fanli.dao.mapper.TaobaoMapper">
     <resultMap id="BaseResultMap" type="com.taobao.fanli.dao.model.Taobao">
         <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="search_content" jdbcType="VARCHAR" property="searchContent" />
         <result column="old_taobao_password" jdbcType="VARCHAR" property="oldTaobaoPassword" />
         <result column="goods_link" jdbcType="LONGVARCHAR" property="goodsLink" />
         <result column="new_taobao_password" jdbcType="VARCHAR" property="newTaobaoPassword" />
@@ -14,11 +15,12 @@
         <result column="native_url" jdbcType="LONGVARCHAR" property="nativeUrl" />
         <result column="thumb_pic_url" jdbcType="VARCHAR" property="thumbPicUrl" />
         <result column="create_at" jdbcType="DATE" property="createAt" />
+        <result column="update_at" jdbcType="DATE" property="updateAt" />
     </resultMap>
 
     <sql id="Base_Colum_List">
-        id, old_taobao_password, goods_link, new_taobao_password, state, title, content, price,
-        pic_url, native_url, thumb_pic_url, create_at
+        id, search_content, old_taobao_password, goods_link, new_taobao_password, state, title,
+        content, price, pic_url, native_url, thumb_pic_url, create_at, update_at
     </sql>
 
     <select id="getOne" resultMap="BaseResultMap">
@@ -26,6 +28,9 @@
       <include refid="Base_Colum_List"/>
       FROM taobao
       WHERE id = #{id, jdbcType=INTEGER}
+      <if test="state != null">
+          AND state = #{state, jdbcType=TINYINT}
+      </if>
     </select>
 
     <select id="queryOne" resultMap="BaseResultMap">
@@ -49,13 +54,147 @@
         #{thumbPicUrl, jdbcType=VARCHAR}, #{createAt, jdbcType=DATE})
     </insert>
 
-    <update id="update">
+    <insert id="insertDynamic" parameterType="com.taobao.fanli.dao.model.Taobao"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO taobao
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="searchContent != null">
+                search_content,
+            </if>
+            <if test="oldTaobaoPassword != null">
+                old_taobao_password,
+            </if>
+            <if test="goodsLink != null">
+                goods_link,
+            </if>
+            <if test="newTaobaoPassword != null">
+                new_taobao_password,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="picUrl != null">
+                pic_url,
+            </if>
+            <if test="nativeUrl != null">
+                native_url,
+            </if>
+            <if test="thumbPicUrl != null">
+                thumb_pic_url,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="searchContent != null">
+                #{searchContent, jdbcType = VARCHAR},
+            </if>
+            <if test="oldTaobaoPassword != null">
+                #{oldTaobaoPassword, jdbcType = VARCHAR},
+            </if>
+            <if test="goodsLink != null">
+                #{goodsLink, jdbcType = VARCHAR},
+            </if>
+            <if test="newTaobaoPassword != null">
+                #{newTaobaoPassword, jdbcType = VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state, jdbcType = TINYINT},
+            </if>
+            <if test="title != null">
+                #{title, jdbcType = VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content, jdbcType = VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price, jdbcType = INTEGER},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl, jdbcType = VARCHAR},
+            </if>
+            <if test="nativeUrl != null">
+                #{nativeUrl, jdbcType = VARCHAR},
+            </if>
+            <if test="thumbPicUrl != null">
+                #{thumbPicUrl, jdbcType = VARCHAR},
+            </if>
+            <if test="createAt != null">
+                #{createAt, jdbcType = DATE},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt, jdbcType = DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateDynamic" parameterType="com.taobao.fanli.dao.model.Taobao" >
+        update taobao
+        <set>
+            <if test="searchContent != null">
+                search_content = #{searchContent, jdbcType = VARCHAR},
+            </if>
+            <if test="oldTaobaoPassword != null">
+                old_taobao_password = #{oldTaobaoPassword, jdbcType = VARCHAR},
+            </if>
+            <if test="goodsLink != null">
+                goods_link = #{goodsLink, jdbcType = VARCHAR},
+            </if>
+            <if test="newTaobaoPassword != null">
+                new_taobao_password = #{newTaobaoPassword, jdbcType = VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state, jdbcType = TINYINT},
+            </if>
+            <if test="title != null">
+                title = #{title, jdbcType = VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content, jdbcType = VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price, jdbcType = INTEGER},
+            </if>
+            <if test="picUrl != null">
+                pic_url = #{picUrl, jdbcType = VARCHAR},
+            </if>
+            <if test="nativeUrl != null">
+                native_url = #{nativeUrl, jdbcType = VARCHAR},
+            </if>
+            <if test="thumbPicUrl != null">
+                thumb_pic_url = #{thumbPicUrl, jdbcType = VARCHAR},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt, jdbcType = DATE},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt, jdbcType = DATE},
+            </if>
+        </set>
+        WHERE id = #{id, jdbcType=INTEGER}
+    </update>
+
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
         UPDATE
         taobao
         SET
-        state = #{state, jdbcType=TINYINT}
+        state = 2
         WHERE
-        id = #{id, jdbcType=INTEGER}
+        state = 1
+        limit 1;
     </update>
 
 </mapper>

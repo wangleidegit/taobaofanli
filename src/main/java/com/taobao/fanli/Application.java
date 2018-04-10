@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.taobao.fanli.dao.mapper")
-public class FanliApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FanliApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }

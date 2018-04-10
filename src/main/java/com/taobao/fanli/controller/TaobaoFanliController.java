@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author:xiaolei
@@ -31,7 +32,7 @@ public class TaobaoFanliController {
             @RequestParam(value = "content") String content
     ) {
         try {
-            String result = taobaoFanliService.parseTpwd(content);
+            Map<String, Integer> result = taobaoFanliService.parseTpwd(content);
             return new RestResponse(result);
         } catch (ApiException e) {
             logger.error("taobaofanli parseTpwd error:", e);
@@ -42,10 +43,10 @@ public class TaobaoFanliController {
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public RestResponse update(
             @RequestParam(value = "id") Integer id,
-            @RequestParam(value = "state") Byte state
+            @RequestParam(value = "newTaobaoPassword") String newTaobaoPassword
     ) {
         try {
-            taobaoFanliService.update(id, state);
+            taobaoFanliService.update(id, newTaobaoPassword);
             return new RestResponse("success");
         } catch (Exception e) {
             logger.error("taobaofanli update error:", e);
@@ -53,13 +54,33 @@ public class TaobaoFanliController {
         }
     }
 
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping(value = "/queryOne", method = RequestMethod.GET)
     public RestResponse queryOne(
-            @RequestParam(value = "state") Byte state
+            @RequestParam(value = "id") Integer id
     ) {
         try {
-            Taobao taobao = taobaoFanliService.queryOne(state);
-            return new RestResponse(taobao);
+            Taobao taobao = taobaoFanliService.queryOne(id);
+            if(taobao != null){
+                return new RestResponse(taobao);
+            }else{
+                return new RestResponse("数据正在处理中，请稍后", 120);
+            }
+
+        } catch (Exception e) {
+            logger.error("taobaofanli query error:", e);
+            return new RestResponse("更新出错", 110);
+        }
+    }
+
+    @RequestMapping(value = "/queryState", method = RequestMethod.GET)
+    public RestResponse queryState() {
+        try {
+            Taobao taobao = taobaoFanliService.queryState();
+            if(taobao != null){
+                return new RestResponse(taobao);
+            }else{
+                return new RestResponse("无数据处理", 120);
+            }
         } catch (Exception e) {
             logger.error("taobaofanli query error:", e);
             return new RestResponse("更新出错", 110);
