@@ -1,0 +1,34 @@
+2018-04-14 14:20:07.609  INFO 7676 --- [main] com.taobao.fanli.Application             : Starting Application on USER-20161008TP with PID 7676 (D:\project\java\learn\fanli\target\classes started by Administrator in D:\project\java\learn\fanli)
+2018-04-14 14:20:07.613  INFO 7676 --- [main] com.taobao.fanli.Application             : No active profile set, falling back to default profiles: default
+2018-04-14 14:20:07.675  INFO 7676 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6caf0677: startup date [Sat Apr 14 14:20:07 CST 2018]; root of context hierarchy
+2018-04-14 14:20:08.785  INFO 7676 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2018-04-14 14:20:08.805  INFO 7676 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-04-14 14:20:08.805  INFO 7676 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.29
+2018-04-14 14:20:08.903  INFO 7676 --- [localhost-startStop-1] o.a.c.c.C.[.[localhost].[/wanglei]       : Initializing Spring embedded WebApplicationContext
+2018-04-14 14:20:08.904  INFO 7676 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1232 ms
+2018-04-14 14:20:09.040  INFO 7676 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-04-14 14:20:09.044  INFO 7676 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-04-14 14:20:09.045  INFO 7676 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-04-14 14:20:09.045  INFO 7676 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-04-14 14:20:09.045  INFO 7676 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-04-14 14:20:09.656  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6caf0677: startup date [Sat Apr 14 14:20:07 CST 2018]; root of context hierarchy
+2018-04-14 14:20:09.709  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/state/ping],methods=[GET]}" onto public java.lang.String com.taobao.fanli.controller.StateController.ping()
+2018-04-14 14:20:09.710  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/state/writelog]}" onto public java.lang.Object com.taobao.fanli.controller.StateController.writeLog()
+2018-04-14 14:20:09.713  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/taobao/fanli/update],methods=[GET]}" onto public com.taobao.fanli.common.RestResponse com.taobao.fanli.controller.TaobaoFanliController.update(java.lang.Integer,java.lang.String)
+2018-04-14 14:20:09.713  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/taobao/fanli/parseTpwd],methods=[GET]}" onto public com.taobao.fanli.common.RestResponse com.taobao.fanli.controller.TaobaoFanliController.parseTpwd(java.lang.String)
+2018-04-14 14:20:09.713  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/taobao/fanli/queryOne],methods=[GET]}" onto public com.taobao.fanli.common.RestResponse com.taobao.fanli.controller.TaobaoFanliController.queryOne(java.lang.Integer)
+2018-04-14 14:20:09.713  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/taobao/fanli/queryState],methods=[GET]}" onto public com.taobao.fanli.common.RestResponse com.taobao.fanli.controller.TaobaoFanliController.queryState()
+2018-04-14 14:20:09.715  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-04-14 14:20:09.716  INFO 7676 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-04-14 14:20:09.747  INFO 7676 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-04-14 14:20:09.747  INFO 7676 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-04-14 14:20:09.783  INFO 7676 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-04-14 14:20:10.055  INFO 7676 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-04-14 14:20:10.090  INFO 7676 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2018-04-14 14:20:10.093  INFO 7676 --- [main] com.taobao.fanli.Application             : Started Application in 2.739 seconds (JVM running for 3.491)
+2018-04-14 14:20:19.032  INFO 7676 --- [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/wanglei]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-04-14 14:20:19.032  INFO 7676 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-04-14 14:20:19.050  INFO 7676 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 18 ms
+2018-04-14 14:20:19.070  INFO 7676 --- [http-nio-8080-exec-1] c.t.fanli.controller.StateController     : This is an info message
+2018-04-14 14:20:19.070  WARN 7676 --- [http-nio-8080-exec-1] c.t.fanli.controller.StateController     : This is a warn message
+2018-04-14 14:20:19.071 ERROR 7676 --- [http-nio-8080-exec-1] c.t.fanli.controller.StateController     : This is an error message

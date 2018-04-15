@@ -33,12 +33,27 @@
       </if>
     </select>
 
+    <select id="getByIdAndState" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Colum_List"/>
+        FROM taobao
+        WHERE id = #{id, jdbcType=INTEGER}
+        AND state IN (3, 4)
+    </select>
+
     <select id="queryOne" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Colum_List"/>
         FROM taobao
         WHERE state = #{state, jdbcType=TINYINT}
         limit 1;
+    </select>
+
+    <select id="queryByOtp" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Colum_List"/>
+        FROM taobao
+        WHERE old_taobao_password = #{oldTaobaoPassword, jdbcType=VARCHAR}
     </select>
 
     <insert id="insert" parameterType="com.taobao.fanli.dao.model.Taobao">

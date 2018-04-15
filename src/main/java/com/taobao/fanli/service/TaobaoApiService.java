@@ -51,11 +51,12 @@ public class TaobaoApiService {
             taobao.setNativeUrl(response.getNativeUrl());
             taobao.setGoodsLink(response.getUrl());
             if(response.getPrice() != null){
-                taobao.setPrice(Integer.valueOf(response.getPrice()));
+                taobao.setPrice(new Double(new Double(response.getPrice())* 100).intValue());
             }
             taobao.setState((byte) 1);
             taobao.setUpdateAt(new Date());
             taobaoMapper.updateDynamic(taobao);
         }
     }
+
 }

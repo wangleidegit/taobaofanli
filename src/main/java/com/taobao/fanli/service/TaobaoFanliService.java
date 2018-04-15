@@ -42,6 +42,10 @@ public class TaobaoFanliService {
      */
     public Map<String, Integer> parseTpwd(String content) throws ApiException {
         String oldTaobaoPassword = parseSearchContent(content);
+        Taobao taobao = taobaoMapper.queryByOtp(oldTaobaoPassword);
+        if(taobao != null){
+            return null;
+        }
         Integer id = insert(content, oldTaobaoPassword);
         taobaoApiService.dealData(id, oldTaobaoPassword);
         Map<String, Integer> map = new HashMap<>();
@@ -72,12 +76,17 @@ public class TaobaoFanliService {
      * 更新操作
      * @param id
      * @param newTaobaoPassword
+     * @param failed
      */
-    public void update(Integer id, String newTaobaoPassword) {
+    public void update(Integer id, String newTaobaoPassword, Integer failed) {
         Taobao taobao = new Taobao();
         taobao.setId(id);
-        taobao.setNewTaobaoPassword(newTaobaoPassword);
-        taobao.setState((byte) 3);
+        if(failed == 1){
+            taobao.setState((byte) 4);
+        }else{
+            taobao.setNewTaobaoPassword(newTaobaoPassword);
+            taobao.setState((byte) 3);
+        }
         taobaoMapper.updateDynamic(taobao);
     }
 
@@ -87,14 +96,17 @@ public class TaobaoFanliService {
      * @return
      */
     public Taobao queryOne(Integer id) {
-        Taobao taobao = taobaoMapper.getOne(id, (byte) 3);
+        Taobao taobao = taobaoMapper.getByIdAndState(id);
         return taobao;
     }
 
     @Transactional
     public Taobao queryState() {
-        taobaoMapper.update();
-        Taobao taobao = taobaoMapper.queryOne((byte) 2);
-        return taobao;
+        int update = taobaoMapper.update();
+        if(update == 1){
+            Taobao taobao = taobaoMapper.queryOne((byte) 2);
+            return taobao;
+        }
+        return null;
     }
 }
