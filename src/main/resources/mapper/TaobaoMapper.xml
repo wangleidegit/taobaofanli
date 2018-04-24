@@ -14,8 +14,8 @@
         <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
         <result column="native_url" jdbcType="LONGVARCHAR" property="nativeUrl" />
         <result column="thumb_pic_url" jdbcType="VARCHAR" property="thumbPicUrl" />
-        <result column="create_at" jdbcType="DATE" property="createAt" />
-        <result column="update_at" jdbcType="DATE" property="updateAt" />
+        <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+        <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
     </resultMap>
 
     <sql id="Base_Colum_List">
@@ -66,7 +66,7 @@
         #{newTaobaoPassword,jdbcType=VARCHAR}, #{state, jdbcType=TINYINT},
         #{title, jdbcType=VARCHAR}, #{content, jdbcType=VARCHAR}, #{price, jdbcType=INTEGER},
         #{picUrl, jdbcType=VARCHAR}, #{nativeUrl, jdbcType=VARCHAR},
-        #{thumbPicUrl, jdbcType=VARCHAR}, #{createAt, jdbcType=DATE})
+        #{thumbPicUrl, jdbcType=VARCHAR}, #{createAt, jdbcType=TIMESTAMP})
     </insert>
 
     <insert id="insertDynamic" parameterType="com.taobao.fanli.dao.model.Taobao"
@@ -148,10 +148,10 @@
                 #{thumbPicUrl, jdbcType = VARCHAR},
             </if>
             <if test="createAt != null">
-                #{createAt, jdbcType = DATE},
+                #{createAt, jdbcType = TIMESTAMP},
             </if>
             <if test="updateAt != null">
-                #{updateAt, jdbcType = DATE},
+                #{updateAt, jdbcType = TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -193,10 +193,10 @@
                 thumb_pic_url = #{thumbPicUrl, jdbcType = VARCHAR},
             </if>
             <if test="createAt != null">
-                create_at = #{createAt, jdbcType = DATE},
+                create_at = #{createAt, jdbcType = TIMESTAMP},
             </if>
             <if test="updateAt != null">
-                update_at = #{updateAt, jdbcType = DATE},
+                update_at = #{updateAt, jdbcType = TIMESTAMP},
             </if>
         </set>
         WHERE id = #{id, jdbcType=INTEGER}
@@ -206,9 +206,11 @@
         UPDATE
         taobao
         SET
-        state = 2
+        state = 2,
+        update_at = NOW()
         WHERE
-        state = 1
+        id = #{id, jdbcType=INTEGER}
+        AND state = 1
         limit 1;
     </update>
 

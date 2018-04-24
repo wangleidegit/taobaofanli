@@ -17,7 +17,7 @@ public interface TaobaoMapper {
 
     void insertDynamic(Taobao taobao);
 
-    int update();
+    int update(@Param("id") Integer id);
 
     void updateDynamic(Taobao taobao);
 

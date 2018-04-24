@@ -102,10 +102,14 @@ public class TaobaoFanliService {
 
     @Transactional
     public Taobao queryState() {
-        int update = taobaoMapper.update();
+        Taobao taobao = taobaoMapper.queryOne((byte) 1);
+        if(taobao == null){
+            return null;
+        }
+        int update = taobaoMapper.update(taobao.getId());
         if(update == 1){
-            Taobao taobao = taobaoMapper.queryOne((byte) 2);
-            return taobao;
+            Taobao dealtaobao = taobaoMapper.queryOne((byte) 2);
+            return dealtaobao;
         }
         return null;
     }

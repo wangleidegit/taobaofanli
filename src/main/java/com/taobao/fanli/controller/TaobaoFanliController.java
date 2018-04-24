@@ -67,10 +67,10 @@ public class TaobaoFanliController {
 
     @RequestMapping(value = "/queryOne", method = RequestMethod.GET)
     public RestResponse queryOne(
-            @RequestParam(value = "id") Integer id
+            @RequestParam(value = "id") String id
     ) {
         try {
-            Taobao taobao = taobaoFanliService.queryOne(id);
+            Taobao taobao = taobaoFanliService.queryOne(Integer.valueOf(id));
             if(taobao != null){
                 if(taobao.getState() == 4){
                     return new RestResponse("此商品没有返利", 121);
