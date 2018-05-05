@@ -1,6 +1,7 @@
 package com.taobao.fanli.controller;
 
 import com.taobao.fanli.common.RestResponse;
+import com.taobao.fanli.dao.model.User;
 import com.taobao.fanli.postbean.RegisterBean;
 import com.taobao.fanli.service.LoginService;
 import com.taobao.fanli.utils.CookieUtil;
@@ -38,8 +39,17 @@ public class LoginController {
             @RequestParam(value = "password") String password,
             HttpServletRequest request, HttpServletResponse response
     ){
-        String ticket = CookieUtil.getCookieByName(request, "ticket");
-        return null;
+        User userByCookie = loginService.getUserByCookie(request);
+        if(userByCookie != null){
+            return new RestResponse(userByCookie);
+        }
+        try {
+            User login = loginService.login(account, password);
+            loginService.setUserByCookie(login, response);
+            return new RestResponse(login);
+        } catch (Exception e) {
+            return new RestResponse(e.getMessage(), 113);
+        }
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

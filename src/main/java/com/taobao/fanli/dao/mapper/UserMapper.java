@@ -15,4 +15,6 @@ public interface UserMapper {
     void insertDynamic(User user);
 
     void updateDynamic(User user);
+
+    User selectByAccount(@Param("account") String account);
 }
