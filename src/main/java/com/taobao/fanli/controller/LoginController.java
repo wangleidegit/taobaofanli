@@ -5,6 +5,7 @@ import com.taobao.fanli.dao.model.User;
 import com.taobao.fanli.postbean.RegisterBean;
 import com.taobao.fanli.service.LoginService;
 import com.taobao.fanli.utils.CookieUtil;
+import com.taobao.fanli.vo.Login;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
@@ -39,12 +40,12 @@ public class LoginController {
             @RequestParam(value = "password") String password,
             HttpServletRequest request, HttpServletResponse response
     ){
-        User userByCookie = loginService.getUserByCookie(request);
-        if(userByCookie != null){
-            return new RestResponse(userByCookie);
+        Login login = loginService.getUserByCookie(request);
+        if(login != null){
+            return new RestResponse(login);
         }
         try {
-            User login = loginService.login(account, password);
+            login = loginService.login(account, password);
             loginService.setUserByCookie(login, response);
             return new RestResponse(login);
         } catch (Exception e) {
@@ -52,7 +53,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public RestResponse registerController(
             @Valid RegisterBean registerBean, BindingResult result
     ){
