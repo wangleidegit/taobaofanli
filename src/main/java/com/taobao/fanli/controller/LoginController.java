@@ -20,7 +20,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Tao on 2018/4/19.
@@ -40,12 +42,12 @@ public class LoginController {
             @RequestParam(value = "password") String password,
             HttpServletRequest request, HttpServletResponse response
     ){
-        Login login = loginService.getUserByCookie(request);
-        if(login != null){
-            return new RestResponse(login);
-        }
+//        Login login = loginService.getUserByCookie(request);
+//        if(login != null){
+//            return new RestResponse(login);
+//        }
         try {
-            login = loginService.login(account, password);
+            Login login = loginService.login(account, password);
             loginService.setUserByCookie(login, response);
             return new RestResponse(login);
         } catch (Exception e) {
@@ -53,7 +55,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public RestResponse registerController(
             @Valid RegisterBean registerBean, BindingResult result
     ){
@@ -64,6 +66,8 @@ public class LoginController {
             }
         }
         Integer userId = loginService.register(registerBean);
-        return new RestResponse(userId);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("id", userId);
+        return new RestResponse(map);
     }
 }

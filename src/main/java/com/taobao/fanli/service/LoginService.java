@@ -69,6 +69,7 @@ public class LoginService {
         login.setAccount(user.getAccount());
         login.setMobile(user.getMobile());
         login.setRealName(user.getRealName());
+        login.setId(user.getId());
         return login;
     }
 
