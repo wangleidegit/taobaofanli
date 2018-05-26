@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taobao.fanli.dao.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.taobao.fanli.dao.model.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="real_name" jdbcType="VARCHAR" property="realName" />
+        <result column="create_at" jdbcType="DATE" property="createAt" />
+        <result column="update_at" jdbcType="DATE" property="updateAt" />
+    </resultMap>
+
+    <sql id="Base_Colum_List">
+        id, account, password, mobile, real_name,  create_at, update_at
+    </sql>
+
+    <select id="getOne" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Colum_List"/>
+      FROM user
+      WHERE id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Colum_List"/>
+        FROM user
+        WHERE account = #{account, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.taobao.fanli.dao.model.User" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+        user
+        (account, password, mobile, real_name, create_at, update_at)
+        VALUES
+        (#{account, jdbcType=VARCHAR}, #{password, jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR}, #{realName, jdbcType=TINYINT},
+        #{createAt, jdbcType=DATE}, #{updateAt, jdbcType=DATE})
+    </insert>
+
+    <insert id="insertDynamic" parameterType="com.taobao.fanli.dao.model.User"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="account != null">
+                account,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="account != null">
+                #{account, jdbcType = VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password, jdbcType = VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile, jdbcType = VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName, jdbcType = VARCHAR},
+            </if>
+            <if test="createAt != null">
+                #{createAt, jdbcType = DATE},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt, jdbcType = DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateDynamic" parameterType="com.taobao.fanli.dao.model.User" >
+        update user
+        <set>
+            <if test="account != null">
+                account = #{account, jdbcType = VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password, jdbcType = VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile, jdbcType = VARCHAR},
+            </if>
+            <if test="realName != null">
+                real_name = #{realName, jdbcType = VARCHAR},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt, jdbcType = DATE},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt, jdbcType = DATE},
+            </if>
+        </set>
+        WHERE id = #{id, jdbcType=INTEGER}
+    </update>
+
+</mapper>
