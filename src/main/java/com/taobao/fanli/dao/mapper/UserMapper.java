@@ -16,5 +16,5 @@ public interface UserMapper {
 
     void updateDynamic(User user);
 
-    User selectByAccount(@Param("account") String account);
+    User selectByMobile(@Param("mobile") String mobile);
 }

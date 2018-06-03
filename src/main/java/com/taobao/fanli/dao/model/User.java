@@ -8,10 +8,8 @@ import java.util.Date;
 public class User {
 
     private Integer id;
-    private String account;
-    private String password;
     private String mobile;
-    private String realName;
+    private String openid;
     private Date createAt;
     private Date updateAt;
 
@@ -23,22 +21,6 @@ public class User {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getMobile() {
         return mobile;
     }
@@ -47,12 +29,12 @@ public class User {
         this.mobile = mobile;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getOpenid() {
+        return openid;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setOpenid(String openid) {
+        this.openid = openid;
     }
 
     public Date getCreateAt() {

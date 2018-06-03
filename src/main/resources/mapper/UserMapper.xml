@@ -3,16 +3,14 @@
 <mapper namespace="com.taobao.fanli.dao.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="com.taobao.fanli.dao.model.User">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="account" jdbcType="VARCHAR" property="account" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-        <result column="real_name" jdbcType="VARCHAR" property="realName" />
-        <result column="create_at" jdbcType="DATE" property="createAt" />
-        <result column="update_at" jdbcType="DATE" property="updateAt" />
+        <result column="openid" jdbcType="VARCHAR" property="openid" />
+        <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+        <result column="update_at" jdbcType="TIMESTAMP" property="updateAt" />
     </resultMap>
 
     <sql id="Base_Colum_List">
-        id, account, password, mobile, real_name,  create_at, update_at
+        id, mobile, openid,  create_at, update_at
     </sql>
 
     <select id="getOne" resultMap="BaseResultMap">
@@ -22,38 +20,32 @@
       WHERE id = #{id, jdbcType=INTEGER}
     </select>
 
-    <select id="selectByAccount" resultMap="BaseResultMap">
+    <select id="selectByMobile" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Colum_List"/>
         FROM user
-        WHERE account = #{account, jdbcType=VARCHAR}
+        WHERE mobile = #{mobile, jdbcType=VARCHAR}
     </select>
 
     <insert id="insert" parameterType="com.taobao.fanli.dao.model.User" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
         user
-        (account, password, mobile, real_name, create_at, update_at)
+        (mobile, openid, create_at, update_at)
         VALUES
-        (#{account, jdbcType=VARCHAR}, #{password, jdbcType=VARCHAR},
-        #{mobile,jdbcType=VARCHAR}, #{realName, jdbcType=TINYINT},
-        #{createAt, jdbcType=DATE}, #{updateAt, jdbcType=DATE})
+        (
+        #{mobile,jdbcType=VARCHAR}, #{openid, jdbcType=VARCHAR},
+        #{createAt, jdbcType=TIMESTAMP}, #{updateAt, jdbcType=TIMESTAMP})
     </insert>
 
     <insert id="insertDynamic" parameterType="com.taobao.fanli.dao.model.User"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="account != null">
-                account,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
             <if test="mobile != null">
                 mobile,
             </if>
-            <if test="realName != null">
-                real_name,
+            <if test="openid != null">
+                openid,
             </if>
             <if test="createAt != null">
                 create_at,
@@ -63,23 +55,17 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="account != null">
-                #{account, jdbcType = VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password, jdbcType = VARCHAR},
-            </if>
             <if test="mobile != null">
                 #{mobile, jdbcType = VARCHAR},
             </if>
-            <if test="realName != null">
-                #{realName, jdbcType = VARCHAR},
+            <if test="openid != null">
+                #{openid, jdbcType = VARCHAR},
             </if>
             <if test="createAt != null">
-                #{createAt, jdbcType = DATE},
+                #{createAt, jdbcType = TIMESTAMP},
             </if>
             <if test="updateAt != null">
-                #{updateAt, jdbcType = DATE},
+                #{updateAt, jdbcType = TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -87,23 +73,17 @@
     <update id="updateDynamic" parameterType="com.taobao.fanli.dao.model.User" >
         update user
         <set>
-            <if test="account != null">
-                account = #{account, jdbcType = VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password, jdbcType = VARCHAR},
-            </if>
             <if test="mobile != null">
                 mobile = #{mobile, jdbcType = VARCHAR},
             </if>
-            <if test="realName != null">
-                real_name = #{realName, jdbcType = VARCHAR},
+            <if test="openid != null">
+                openid = #{openid, jdbcType = VARCHAR},
             </if>
             <if test="createAt != null">
-                create_at = #{createAt, jdbcType = DATE},
+                create_at = #{createAt, jdbcType = TIMESTAMP},
             </if>
             <if test="updateAt != null">
-                update_at = #{updateAt, jdbcType = DATE},
+                update_at = #{updateAt, jdbcType = TIMESTAMP},
             </if>
         </set>
         WHERE id = #{id, jdbcType=INTEGER}

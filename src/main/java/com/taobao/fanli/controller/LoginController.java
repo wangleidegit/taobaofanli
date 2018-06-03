@@ -36,18 +36,20 @@ public class LoginController {
     @Resource
     private LoginService loginService;
 
+    /**
+     * 登录
+     * @param mobile
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public RestResponse loginController(
-            @RequestParam(value = "account") String account,
-            @RequestParam(value = "password") String password,
+            @RequestParam(value = "mobile") String mobile,
             HttpServletRequest request, HttpServletResponse response
     ){
-//        Login login = loginService.getUserByCookie(request);
-//        if(login != null){
-//            return new RestResponse(login);
-//        }
         try {
-            Login login = loginService.login(account, password);
+            Login login = loginService.login(mobile);
             loginService.setUserByCookie(login, response);
             return new RestResponse(login);
         } catch (Exception e) {
@@ -55,19 +57,20 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public RestResponse registerController(
-            @Valid RegisterBean registerBean, BindingResult result
-    ){
-        if(result.hasErrors()){
-            List<ObjectError> allErrors = result.getAllErrors();
-            for (ObjectError allError : allErrors){
-                return new RestResponse(allError.getDefaultMessage(), 80001);
-            }
-        }
-        Integer userId = loginService.register(registerBean);
-        Map<String, Integer> map = new HashMap<>();
-        map.put("id", userId);
-        return new RestResponse(map);
-    }
+    //注册代码
+//    @RequestMapping(value = "/register", method = RequestMethod.POST)
+//    public RestResponse registerController(
+//            @Valid RegisterBean registerBean, BindingResult result
+//    ){
+//        if(result.hasErrors()){
+//            List<ObjectError> allErrors = result.getAllErrors();
+//            for (ObjectError allError : allErrors){
+//                return new RestResponse(allError.getDefaultMessage(), 80001);
+//            }
+//        }
+//        Integer userId = loginService.register(registerBean);
+//        Map<String, Integer> map = new HashMap<>();
+//        map.put("id", userId);
+//        return new RestResponse(map);
+//    }
 }

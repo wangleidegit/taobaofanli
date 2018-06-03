@@ -35,41 +35,42 @@ public class LoginService {
     @Resource
     private UserMapper userMapper;
 
-    public Integer register(RegisterBean registerBean) {
-        User user = new User();
-        user.setAccount(registerBean.getAccount());
-        user.setPassword(DigestUtils.md5Hex(registerBean.getPassword()));
-        if (registerBean.getMobile() != null) {
-            user.setMobile(registerBean.getMobile());
-        }
-        if (registerBean.getRealName() != null) {
-            user.setRealName(registerBean.getRealName());
-        }
-        user.setCreateAt(new Date());
-        user.setUpdateAt(user.getCreateAt());
-        userMapper.insertDynamic(user);
-        return user.getId();
-    }
+    //注册
+//    public Integer register(RegisterBean registerBean) {
+//        User user = new User();
+//        user.setAccount(registerBean.getAccount());
+//        user.setPassword(DigestUtils.md5Hex(registerBean.getPassword()));
+//        if (registerBean.getMobile() != null) {
+//            user.setMobile(registerBean.getMobile());
+//        }
+//        if (registerBean.getRealName() != null) {
+//            user.setRealName(registerBean.getRealName());
+//        }
+//        user.setCreateAt(new Date());
+//        user.setUpdateAt(user.getCreateAt());
+//        userMapper.insertDynamic(user);
+//        return user.getId();
+//    }
 
-    public Login login(String account, String password) throws Exception {
-        User user = userMapper.selectByAccount(account);
+    public Login login(String mobile) throws Exception {
+        User user = userMapper.selectByMobile(mobile);
         if (user == null) {
-            throw new Exception("没有此用户");
-        }
-        if (!user.getPassword().equals(DigestUtils.md5Hex(password))) {
-            throw new Exception("密码不正确");
+            user = new User();
+            user.setId(null);
+            user.setMobile(mobile);
+            user.setCreateAt(new Date());
+            user.setUpdateAt(user.getCreateAt());
+            userMapper.insertDynamic(user);
         }
 
-        Login login = getLogin(user);
-        return login;
+        return getLogin(user);
     }
 
     private Login getLogin(User user) {
         Login login = new Login();
-        login.setAccount(user.getAccount());
         login.setMobile(user.getMobile());
-        login.setRealName(user.getRealName());
         login.setId(user.getId());
+        login.setOpenid(user.getOpenid());
         return login;
     }
 
